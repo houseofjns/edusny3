@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of J&S - ICT Mid-Term Examination</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --hover-gold: #B8860B;
+            --light-gold: #F9F6ED;
+            --white: #FFFFFF;
+            --bg-color: #F4F7F6;
+            --text-main: #2D3748;
+            --text-muted: #718096;
+            --border-color: #E2E8F0;
+            --success: #38A169;
+            --success-bg: #F0FFF4;
+            --error: #E53E3E;
+            --error-bg: #FFF5F5;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input, textarea, select {
+            -webkit-user-select: text;
+            -khtml-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid var(--primary-gold);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-container img { max-height: 60px; width: auto; border-radius: 4px; }
+        .header-title h1 { color: var(--text-main); font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
+        .header-title p { color: var(--primary-gold); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        #user-greeting {
+            display: none;
+            font-weight: 600;
+            color: var(--hover-gold);
+            background: var(--light-gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-gold);
+        }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+
+        #login-container {
+            max-width: 450px;
+            margin: 80px auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            border-top: 5px solid var(--primary-gold);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        #login-container h2 { color: var(--text-main); margin-bottom: 10px; font-size: 1.8rem; }
+        #login-container p { color: var(--text-muted); margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main); }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background-color: #FAFAFA;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background-color: var(--white);
+        }
+        .form-hint { display: block; margin-top: 6px; font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary-gold), var(--hover-gold));
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+            box-shadow: var(--shadow-md);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+        .error-msg {
+            color: var(--error);
+            background: var(--error-bg);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+            font-size: 0.9rem;
+            border: 1px solid #FEB2B2;
+        }
+
+        #exam-container { display: none; animation: fadeIn 0.5s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exam-info-card {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gold) 100%);
+            border: 1px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        .exam-info-card h2 { color: var(--hover-gold); margin-bottom: 10px; font-size: 1.5rem; }
+        .set-badge {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-gold), var(--hover-gold));
+            color: var(--white);
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .marks-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .mark-item {
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary-gold);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-gold);
+            display: flex;
+            align-items: center;
+        }
+        .section-title span {
+            background-color: var(--primary-gold);
+            color: var(--white);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .question-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: box-shadow 0.3s ease;
+        }
+        .question-card:hover { box-shadow: var(--shadow-md); }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .marks-badge {
+            background-color: var(--light-gold);
+            color: var(--hover-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            height: fit-content;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        .options label:hover { background-color: var(--light-gold); border-color: var(--primary-gold); }
+        .options input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #CBD5E0;
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            outline: none;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .options input[type="radio"]:checked {
+            border-color: var(--primary-gold);
+            background-color: var(--primary-gold);
+            box-shadow: inset 0 0 0 3px var(--white);
+        }
+        .options input[type="radio"]:checked + span { color: var(--hover-gold); font-weight: 600; }
+
+        .textarea-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #FAFAFA;
+            resize: vertical;
+            min-height: 80px;
+        }
+        input.textarea-input { min-height: 48px; }
+        .textarea-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background-color: var(--white);
+        }
+
+        .order-container { display: flex; flex-direction: column; gap: 10px; }
+        .order-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #FAFAFA;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .order-label { font-weight: 700; color: var(--primary-gold); min-width: 60px; }
+        .order-select {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #CBD5E0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            cursor: pointer;
+        }
+        .order-select:focus { outline: none; border-color: var(--primary-gold); }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(to right, var(--primary-gold), var(--hover-gold));
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-md);
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+        #result-container { display: none; animation: fadeIn 0.5s ease-in-out; }
+
+        .score-card {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gold) 100%);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--primary-gold);
+            margin-bottom: 30px;
+        }
+        .score-card h2 { font-size: 2rem; color: var(--text-main); margin-bottom: 10px; }
+        .score-display {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary-gold);
+            line-height: 1;
+            margin: 20px 0;
+        }
+        .score-display span { font-size: 1.5rem; color: var(--text-muted); font-weight: 500; }
+        .score-sub { color: var(--text-muted); font-size: 0.95rem; }
+
+        .result-breakdown {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+        .result-breakdown h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .result-item {
+            padding: 18px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 6px solid #CBD5E0;
+            background-color: #FAFAFA;
+            font-size: 0.95rem;
+        }
+        .result-item.correct { border-left-color: var(--success); background-color: var(--success-bg); }
+        .result-item.incorrect { border-left-color: var(--error); background-color: var(--error-bg); }
+        .result-item strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .q-num {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-gold), var(--hover-gold));
+            color: var(--white);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+        .answer-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 0.92rem;
+        }
+        .answer-detail > div {
+            padding: 8px 12px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.7);
+        }
+        .your-answer-text { color: var(--error); font-weight: 600; }
+        .correct-answer-text { color: var(--success); font-weight: 600; }
+        .blank-text { color: var(--text-muted); font-style: italic; }
+
+        .retake-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background-color: var(--text-main);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .retake-btn:hover { background-color: #1A202C; }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 6rem;
+            color: rgba(212, 175, 55, 0.05);
+            pointer-events: none;
+            z-index: -1;
+            white-space: nowrap;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; text-align: center; gap: 10px; }
+            .header-title h1 { font-size: 1.1rem; }
+            .order-step { flex-direction: column; align-items: flex-start; }
+            .order-label { margin-bottom: 5px; }
+            #user-greeting { margin-top: 10px; }
+            .result-breakdown { padding: 15px; }
+            .score-display { font-size: 3rem; }
+            .question-text { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="watermark">House of J&S</div>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo1.png" alt="J&S Logo" onerror="this.style.display='none'">
+            <div class="header-title">
+                <h1>House of J&S</h1>
+                <p>Computer Training Center</p>
+            </div>
+        </div>
+        <div id="user-greeting">Welcome, <span id="display-name"></span></div>
+    </header>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-container">
+        <h2>Student Login</h2>
+        <p>Enter your details and choose your exam set.</p>
+
+        <div id="login-error" class="error-msg"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" class="form-control" placeholder="e.g. John Doe" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="studentPassword">Exam Password</label>
+                <input type="password" id="studentPassword" class="form-control" placeholder="Enter password" required>
+            </div>
+            <div class="form-group">
+                <label for="examSetSelect">Select Exam Set</label>
+                <select id="examSetSelect" class="form-control" required>
+                    <option value="A">Set A</option>
+                    <option value="B">Set B</option>
+                </select>
+                <small class="form-hint">Your teacher will tell you which set to take.</small>
+            </div>
+            <button type="submit" class="login-btn">Login to Exam</button>
+        </form>
+    </div>
+
+    <!-- EXAM -->
+    <div class="container" id="exam-container">
+        <div class="exam-info-card">
+            <h2 id="exam-title">ICT Mid-Term Examination</h2>
+            <div class="set-badge" id="exam-set-badge">Set A</div>
+            <p style="margin-top: 15px; color: var(--text-muted);">Units 1, 2, and 3. Please read all questions carefully before answering.</p>
+            <div class="marks-breakdown">
+                <div class="mark-item">Part 1: MCQ (20 Mks)</div>
+                <div class="mark-item">Part 2: True/False (10 Mks)</div>
+                <div class="mark-item">Part 3: Fill in Blanks (20 Mks)</div>
+                <div class="mark-item">Part 4: Short Qs (20 Mks)</div>
+                <div class="mark-item">Part 5: Block Code (30 Mks)</div>
+            </div>
+        </div>
+
+        <form id="examForm">
+            <!-- Rendered by JS -->
+        </form>
+
+        <!-- Results -->
+        <div id="result-container">
+            <div class="score-card">
+                <h2 id="result-greeting">Examination Completed</h2>
+                <div class="score-display" id="score-display">0<span>/100</span></div>
+                <p class="score-sub" id="result-set-label">Set A</p>
+            </div>
+
+            <div class="result-breakdown" id="detailed-results">
+                <h3>Detailed Question Review</h3>
+            </div>
+
+            <div style="text-align: center;">
+                <button onclick="location.reload()" class="retake-btn">Logout &amp; Retake</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ANTI-CHEAT
+        // ============================================
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode == 123 ||
+                (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) ||
+                (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) ||
+                (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+                e.preventDefault();
+                alert("Developer tools and copying are disabled during the exam.");
+            }
+        });
+
+        // ============================================
+        // EXAM DATA — TWO SETS
+        // ============================================
+        const EXAM_DATA = {
+            A: {
+                label: "Set A",
+                mcq: [
+                    { text: "What is a pre-designed layout you can use to make a poster?",
+                      options: [
+                        { value: "A", label: "Template" },
+                        { value: "B", label: "Font" },
+                        { value: "C", label: "Spreadsheet" },
+                        { value: "D", label: "Operator" }
+                      ], answer: "A" },
+                    { text: "Which tool allows you to change the style, size, and color of your words?",
+                      options: [
+                        { value: "A", label: "Image Editor" },
+                        { value: "B", label: "Format Text tool" },
+                        { value: "C", label: "Input device" },
+                        { value: "D", label: "Loop" }
+                      ], answer: "B" },
+                    { text: "If you want to make a picture on your poster smaller, what do you do?",
+                      options: [
+                        { value: "A", label: "Delete it" },
+                        { value: "B", label: "Resize it" },
+                        { value: "C", label: "Change its color" },
+                        { value: "D", label: "Print it" }
+                      ], answer: "B" },
+                    { text: "What type of digital communication involves sending messages over the internet?",
+                      options: [
+                        { value: "A", label: "Poster making" },
+                        { value: "B", label: "Email" },
+                        { value: "C", label: "Drawing" },
+                        { value: "D", label: "Spreadsheets" }
+                      ], answer: "B" },
+                    { text: "What should you do before you send an email?",
+                      options: [
+                        { value: "A", label: "Delete it" },
+                        { value: "B", label: "Proofread and check for mistakes" },
+                        { value: "C", label: "Print it" },
+                        { value: "D", label: "Share your password" }
+                      ], answer: "B" },
+                    { text: "What is the correct way to reply to an email?",
+                      options: [
+                        { value: "A", label: "Write a brand new email" },
+                        { value: "B", label: 'Click the "Reply" button' },
+                        { value: "C", label: "Ignore it" },
+                        { value: "D", label: "Delete the sender" }
+                      ], answer: "B" },
+                    { text: "If a stranger sends you a message online, what should you do?",
+                      options: [
+                        { value: "A", label: "Meet them in person" },
+                        { value: "B", label: "Share your home address" },
+                        { value: "C", label: "Tell a trusted adult and block them" },
+                        { value: "D", label: "Send them money" }
+                      ], answer: "C" },
+                    { text: "What is a keyboard an example of?",
+                      options: [
+                        { value: "A", label: "Output device" },
+                        { value: "B", label: "Input device" },
+                        { value: "C", label: "Processing unit" },
+                        { value: "D", label: "Storage drive" }
+                      ], answer: "B" },
+                    { text: "What is a monitor (screen) an example of?",
+                      options: [
+                        { value: "A", label: "Input device" },
+                        { value: "B", label: "Output device" },
+                        { value: "C", label: "Keyboard" },
+                        { value: "D", label: "Software" }
+                      ], answer: "B" },
+                    { text: "What is the process of turning inputs into outputs called?",
+                      options: [
+                        { value: "A", label: "Processing" },
+                        { value: "B", label: "Printing" },
+                        { value: "C", label: "Emailing" },
+                        { value: "D", label: "Typing" }
+                      ], answer: "A" },
+                    { text: "Which of the following is an operator used in programming?",
+                      options: [
+                        { value: "A", label: "Keyboard" },
+                        { value: "B", label: "Mouse" },
+                        { value: "C", label: "+ (Plus sign)" },
+                        { value: "D", label: "Screen" }
+                      ], answer: "C" },
+                    { text: 'What does a "loop" do in a computer program?',
+                      options: [
+                        { value: "A", label: "Deletes the code" },
+                        { value: "B", label: "Repeats instructions" },
+                        { value: "C", label: "Turns off the computer" },
+                        { value: "D", label: "Makes the screen brighter" }
+                      ], answer: "B" },
+                    { text: "What is a good habit when using digital messaging?",
+                      options: [
+                        { value: "A", label: "Typing in ALL CAPS" },
+                        { value: "B", label: "Being polite and respectful" },
+                        { value: "C", label: "Sharing passwords" },
+                        { value: "D", label: "Sending spam" }
+                      ], answer: "B" },
+                    { text: "When adding shapes with text to a poster, what are you creating?",
+                      options: [
+                        { value: "A", label: "A spreadsheet" },
+                        { value: "B", label: "A text box or callout" },
+                        { value: "C", label: "A network" },
+                        { value: "D", label: "An operator" }
+                      ], answer: "B" },
+                    { text: "What should you do if you receive an email with an attachment from someone you don't know?",
+                      options: [
+                        { value: "A", label: "Open it immediately" },
+                        { value: "B", label: "Don't open it and ask an adult" },
+                        { value: "C", label: "Forward it to friends" },
+                        { value: "D", label: "Reply with your address" }
+                      ], answer: "B" },
+                    { text: 'What does "Inputs forever" mean in programming?',
+                      options: [
+                        { value: "A", label: "The program stops immediately" },
+                        { value: "B", label: "An infinite loop asking for input" },
+                        { value: "C", label: "Deleting all data" },
+                        { value: "D", label: "Printing a document" }
+                      ], answer: "B" },
+                    { text: "Which of these is considered personal information you should not share online?",
+                      options: [
+                        { value: "A", label: "Your favorite color" },
+                        { value: "B", label: "Your home address" },
+                        { value: "C", label: "Your favorite food" },
+                        { value: "D", label: "Your pet's name" }
+                      ], answer: "B" },
+                    { text: 'What does the "Send" button do in an email?',
+                      options: [
+                        { value: "A", label: "Deletes the email" },
+                        { value: "B", label: "Delivers the email to the recipient" },
+                        { value: "C", label: "Saves it as a draft" },
+                        { value: "D", label: "Prints it" }
+                      ], answer: "B" },
+                    { text: "What type of device is a speaker?",
+                      options: [
+                        { value: "A", label: "Input" },
+                        { value: "B", label: "Output" },
+                        { value: "C", label: "Processing" },
+                        { value: "D", label: "Storage" }
+                      ], answer: "B" },
+                    { text: "When planning a program, what should you do first?",
+                      options: [
+                        { value: "A", label: "Start typing code randomly" },
+                        { value: "B", label: "Plan what inputs and outputs you need" },
+                        { value: "C", label: "Turn off the monitor" },
+                        { value: "D", label: "Send an email" }
+                      ], answer: "B" }
+                ],
+                tf: [
+                    { text: "A template saves time because it already has a layout.", answer: "True" },
+                    { text: "You cannot change the color of text in a poster.", answer: "False" },
+                    { text: "It is okay to send mean messages if you are angry.", answer: "False" },
+                    { text: "Emails can have files like pictures or documents attached to them.", answer: "True" },
+                    { text: "A printer is an input device.", answer: "False" },
+                    { text: "An input is information given to a computer.", answer: "True" },
+                    { text: "Operators are used to do math in programming.", answer: "True" },
+                    { text: "You should always open emails from people you don't know.", answer: "False" },
+                    { text: "You can resize images to make them fit better on your poster.", answer: "True" },
+                    { text: "A loop makes a computer repeat a task many times.", answer: "True" }
+                ],
+                fill: [
+                    { text: "A ready-made design you can use for a poster is called a ______.", answer: "template" },
+                    { text: "To make a picture fit better on your poster, you can ______ it.", answer: "resize" },
+                    { text: "An ______ is a message sent over the internet.", answer: "email" },
+                    { text: "When replying to a message, you should be ______ and polite.", answer: "kind" },
+                    { text: "Never share your personal ______ online with strangers.", answer: "information" },
+                    { text: "A mouse is an ______ device.", answer: "input" },
+                    { text: "A screen is an ______ device.", answer: "output" },
+                    { text: "The + sign is an ______ used to add numbers.", answer: "operator" },
+                    { text: "To repeat a set of instructions, you use a ______.", answer: "loop" },
+                    { text: "Before you send an email, you should check for spelling ______.", answer: "mistakes" }
+                ],
+                short: [
+                    { text: "What are the steps to add an image to your poster?",
+                      keywords: ["insert", "image", "select", "file", "click"] },
+                    { text: "Why is it important to be kind when sending messages online?",
+                      keywords: ["respect", "feelings", "cyberbullying", "polite", "kind"] },
+                    { text: "How can you stay safe when using messaging apps or email?",
+                      keywords: ["stranger", "personal information", "password", "adult", "block"] },
+                    { text: "Explain the difference between an input and an output. Give one example of each.",
+                      keywords: ["input gives data", "output shows results", "keyboard", "monitor", "screen"] },
+                    { text: "What is a loop in programming and why is it useful?",
+                      keywords: ["repeat", "instructions", "again", "save time", "forever"] }
+                ],
+                order: [
+                    { text: "Order the steps to send a new email.",
+                      options: [
+                        { value: "A", label: "Type the recipient's address and your message" },
+                        { value: "B", label: "Open your email application" },
+                        { value: "C", label: 'Click the "Send" button' }
+                      ], answer: ["B", "A", "C"] },
+                    { text: "Order the steps to add an image to your poster.",
+                      options: [
+                        { value: "A", label: "Select the image file from your computer" },
+                        { value: "B", label: "Open your poster template" },
+                        { value: "C", label: 'Click the "Insert Image" button' }
+                      ], answer: ["B", "C", "A"] },
+                    { text: "Order how the Input-Process-Output cycle works.",
+                      options: [
+                        { value: "A", label: "The letter appears on the screen (Output)" },
+                        { value: "B", label: "You press a key on the keyboard (Input)" },
+                        { value: "C", label: "The computer processes the keystroke" }
+                      ], answer: ["B", "C", "A"] },
+                    { text: "Order the steps to reply to an email.",
+                      options: [
+                        { value: "A", label: 'Click the "Reply" button' },
+                        { value: "B", label: "Open the email you received" },
+                        { value: "C", label: 'Type your response and click "Send"' }
+                      ], answer: ["B", "A", "C"] },
+                    { text: "Order the steps to format text on a poster.",
+                      options: [
+                        { value: "A", label: "Use the menu to change size/color" },
+                        { value: "B", label: "Type your text" },
+                        { value: "C", label: "Highlight the text you want to change" }
+                      ], answer: ["B", "C", "A"] },
+                    { text: "Order the steps for a program to add two numbers.",
+                      options: [
+                        { value: "A", label: "Show the result on the screen (Output)" },
+                        { value: "B", label: "Ask the user for the first number (Input)" },
+                        { value: "C", label: "Add the two numbers together (Process)" }
+                      ], answer: ["B", "C", "A"] }
+                ]
+            },
+            B: {
+                label: "Set B",
+                mcq: [
+                    { text: "What is the main purpose of a poster?",
+                      options: [
+                        { value: "A", label: "To send an email" },
+                        { value: "B", label: "To share information visually" },
+                        { value: "C", label: "To store files" },
+                        { value: "D", label: "To play music" }
+                      ], answer: "B" },
+                    { text: "Which tool would you use to make text bigger on a poster?",
+                      options: [
+                        { value: "A", label: "Font size" },
+                        { value: "B", label: "Crop tool" },
+                        { value: "C", label: "Send button" },
+                        { value: "D", label: "Keyboard" }
+                      ], answer: "A" },
+                    { text: 'What does the "crop" tool do to an image?',
+                      options: [
+                        { value: "A", label: "Makes the image brighter" },
+                        { value: "B", label: "Cuts out parts of the image" },
+                        { value: "C", label: "Deletes the image" },
+                        { value: "D", label: "Prints the image" }
+                      ], answer: "B" },
+                    { text: "What is the @ symbol used for in an email address?",
+                      options: [
+                        { value: "A", label: "To separate the username from the domain" },
+                        { value: "B", label: "To add an attachment" },
+                        { value: "C", label: "To delete the email" },
+                        { value: "D", label: "To print the email" }
+                      ], answer: "A" },
+                    { text: "Why should you add a subject line to an email?",
+                      options: [
+                        { value: "A", label: "To make the email longer" },
+                        { value: "B", label: "So the reader knows what it is about" },
+                        { value: "C", label: "To attach a file" },
+                        { value: "D", label: "To forward the email" }
+                      ], answer: "B" },
+                    { text: 'What does the "Forward" button do in an email?',
+                      options: [
+                        { value: "A", label: "Deletes the email" },
+                        { value: "B", label: "Sends a received email to someone else" },
+                        { value: "C", label: "Prints the email" },
+                        { value: "D", label: "Replies to the sender" }
+                      ], answer: "B" },
+                    { text: "What should you do if a stranger asks for your photo online?",
+                      options: [
+                        { value: "A", label: "Send the photo" },
+                        { value: "B", label: "Ask for their photo first" },
+                        { value: "C", label: "Say no and tell a trusted adult" },
+                        { value: "D", label: "Share your password" }
+                      ], answer: "C" },
+                    { text: "What type of device is a touchscreen?",
+                      options: [
+                        { value: "A", label: "Input only" },
+                        { value: "B", label: "Output only" },
+                        { value: "C", label: "Both input and output" },
+                        { value: "D", label: "Storage only" }
+                      ], answer: "C" },
+                    { text: "What type of device is a printer?",
+                      options: [
+                        { value: "A", label: "Input" },
+                        { value: "B", label: "Output" },
+                        { value: "C", label: "Processing" },
+                        { value: "D", label: "Storage" }
+                      ], answer: "B" },
+                    { text: "What does CPU stand for?",
+                      options: [
+                        { value: "A", label: "Central Processing Unit" },
+                        { value: "B", label: "Computer Power Unit" },
+                        { value: "C", label: "Control Print Unit" },
+                        { value: "D", label: "Central Print Utility" }
+                      ], answer: "A" },
+                    { text: "Which of these is an operator used in programming?",
+                      options: [
+                        { value: "A", label: "× (multiply)" },
+                        { value: "B", label: "Keyboard" },
+                        { value: "C", label: "Screen" },
+                        { value: "D", label: "Email" }
+                      ], answer: "A" },
+                    { text: 'What does the "forever" block do in programming?',
+                      options: [
+                        { value: "A", label: "Stops the program" },
+                        { value: "B", label: "Repeats forever until stopped" },
+                        { value: "C", label: "Runs only once" },
+                        { value: "D", label: "Prints a document" }
+                      ], answer: "B" },
+                    { text: "What is cyberbullying?",
+                      options: [
+                        { value: "A", label: "Playing games online" },
+                        { value: "B", label: "Using technology to hurt someone" },
+                        { value: "C", label: "Learning on the internet" },
+                        { value: "D", label: "Sending a kind message" }
+                      ], answer: "B" },
+                    { text: "What is a text box on a poster?",
+                      options: [
+                        { value: "A", label: "A shape used to add text" },
+                        { value: "B", label: "A type of email" },
+                        { value: "C", label: "An input device" },
+                        { value: "D", label: "A search engine" }
+                      ], answer: "A" },
+                    { text: "What should you do with an email that asks for your password?",
+                      options: [
+                        { value: "A", label: "Reply with your password" },
+                        { value: "B", label: "Delete it and tell an adult" },
+                        { value: "C", label: "Click on every link" },
+                        { value: "D", label: "Forward it to friends" }
+                      ], answer: "B" },
+                    { text: "What is an algorithm?",
+                      options: [
+                        { value: "A", label: "A step-by-step set of instructions" },
+                        { value: "B", label: "A type of computer screen" },
+                        { value: "C", label: "An email address" },
+                        { value: "D", label: "A poster template" }
+                      ], answer: "A" },
+                    { text: "Which of these is personal information you should never share online?",
+                      options: [
+                        { value: "A", label: "Your favorite animal" },
+                        { value: "B", label: "Your password" },
+                        { value: "C", label: "Your favorite color" },
+                        { value: "D", label: "Your favorite game" }
+                      ], answer: "B" },
+                    { text: "What is an attachment in an email?",
+                      options: [
+                        { value: "A", label: "A file sent with the email" },
+                        { value: "B", label: "The subject line" },
+                        { value: "C", label: "The Send button" },
+                        { value: "D", label: "The recipient's address" }
+                      ], answer: "A" },
+                    { text: "What type of device is a microphone?",
+                      options: [
+                        { value: "A", label: "Input" },
+                        { value: "B", label: "Output" },
+                        { value: "C", label: "Storage" },
+                        { value: "D", label: "Processing" }
+                      ], answer: "A" },
+                    { text: 'What does "debug" mean in programming?',
+                      options: [
+                        { value: "A", label: "Sending an email" },
+                        { value: "B", label: "Finding and fixing errors in a program" },
+                        { value: "C", label: "Turning off the computer" },
+                        { value: "D", label: "Printing a poster" }
+                      ], answer: "B" }
+                ],
+                tf: [
+                    { text: "A template can help you start a poster quickly.", answer: "True" },
+                    { text: "You can only use one font in a poster.", answer: "False" },
+                    { text: "It is okay to share your password with your best friend.", answer: "False" },
+                    { text: "You should always use a subject line when sending an email.", answer: "True" },
+                    { text: "A scanner is an output device.", answer: "False" },
+                    { text: "Output is the result a computer shows after processing.", answer: "True" },
+                    { text: "The × symbol is an operator for multiplication.", answer: "True" },
+                    { text: "You should reply to every email from strangers.", answer: "False" },
+                    { text: "You can change the size of text on a poster.", answer: "True" },
+                    { text: "An algorithm is a list of steps to finish a task.", answer: "True" }
+                ],
+                fill: [
+                    { text: "A ready-made design for a poster is called a ______.", answer: "template" },
+                    { text: "To make an image smaller without cutting it, you ______ it.", answer: "resize" },
+                    { text: "An ______ address looks like name@example.com.", answer: "email" },
+                    { text: "Always be ______ and respectful when you message others.", answer: "kind" },
+                    { text: "Never share your ______ with anyone online.", answer: "password" },
+                    { text: "A keyboard is an ______ device.", answer: "input" },
+                    { text: "A monitor is an ______ device.", answer: "output" },
+                    { text: "The × symbol is an ______ for multiplication.", answer: "operator" },
+                    { text: "A ______ repeats a set of instructions.", answer: "loop" },
+                    { text: "You should ______ your email before sending it.", answer: "proofread" }
+                ],
+                short: [
+                    { text: "How do you add and resize an image on a poster?",
+                      keywords: ["insert", "image", "resize", "drag", "select", "click"] },
+                    { text: "Why is it important to be polite when sending digital messages?",
+                      keywords: ["respect", "feelings", "kind", "polite", "cyberbullying", "hurt"] },
+                    { text: "What are three things you should never share online?",
+                      keywords: ["password", "address", "phone", "personal information", "photo"] },
+                    { text: "Explain the difference between input and output with one example of each.",
+                      keywords: ["input gives data", "output shows results", "keyboard", "monitor", "microphone", "speaker"] },
+                    { text: "What is an algorithm and why is it useful in programming?",
+                      keywords: ["step-by-step", "instructions", "steps", "solve", "task", "organize"] }
+                ],
+                order: [
+                    { text: "Order the steps to create a poster using a template.",
+                      options: [
+                        { value: "A", label: "Choose a template" },
+                        { value: "B", label: "Open the poster software" },
+                        { value: "C", label: "Edit the text and images" }
+                      ], answer: ["B", "A", "C"] },
+                    { text: "Order the steps to send an email with an attachment.",
+                      options: [
+                        { value: "A", label: "Add the recipient, subject, and message" },
+                        { value: "B", label: 'Open your email and click "Compose"' },
+                        { value: "C", label: 'Attach the file and click "Send"' }
+                      ], answer: ["B", "A", "C"] },
+                    { text: "Order the Input-Process-Output cycle for a calculator.",
+                      options: [
+                        { value: "A", label: "The display shows 4 (Output)" },
+                        { value: "B", label: "You press 2 + 2 (Input)" },
+                        { value: "C", label: "The calculator calculates (Process)" }
+                      ], answer: ["B", "C", "A"] },
+                    { text: "Order the steps to check if an email is safe to open.",
+                      options: [
+                        { value: "A", label: "Check if you know the sender" },
+                        { value: "B", label: "Look at the sender's address" },
+                        { value: "C", label: "Delete it if you don't know them" }
+                      ], answer: ["B", "A", "C"] },
+                    { text: "Order the steps to change text color on a poster.",
+                      options: [
+                        { value: "A", label: "Choose a new color from the menu" },
+                        { value: "B", label: "Type or select the text" },
+                        { value: "C", label: "Highlight the text" }
+                      ], answer: ["B", "C", "A"] },
+                    { text: "Order the steps for a program that asks for two numbers and shows the sum.",
+                      options: [
+                        { value: "A", label: "Show the sum" },
+                        { value: "B", label: "Ask for the first number" },
+                        { value: "C", label: "Ask for the second number" }
+                      ], answer: ["B", "C", "A"] }
+                ]
+            }
+        };
+
+        // ============================================
+        // STATE
+        // ============================================
+        let currentStudentName = "";
+        let currentSet = "A";
+
+        // ============================================
+        // LOGIN
+        // ============================================
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nameInput = document.getElementById('studentName').value.trim();
+            const passInput = document.getElementById('studentPassword').value;
+            const setInput = document.getElementById('examSetSelect').value;
+            const errorMsg = document.getElementById('login-error');
+
+            if (passInput !== 'HJS2026') {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'Incorrect password. Please try again.';
+                return;
+            }
+            if (nameInput === '') {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'Please enter your name.';
+                return;
+            }
+
+            currentStudentName = nameInput;
+            currentSet = setInput;
+            errorMsg.style.display = 'none';
+
+            document.getElementById('display-name').innerText = currentStudentName;
+            document.getElementById('user-greeting').style.display = 'block';
+
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('exam-container').style.display = 'block';
+
+            renderExam(currentSet);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================
+        // RENDER EXAM
+        // ============================================
+        function renderExam(setKey) {
+            const data = EXAM_DATA[setKey];
+            const form = document.getElementById('examForm');
+            let html = '';
+
+            document.getElementById('exam-title').textContent = "ICT Mid-Term Examination";
+            document.getElementById('exam-set-badge').textContent = data.label;
+
+            // Part 1 - MCQ
+            html += '<h2 class="section-title">Part 1: Multiple Choice <span>20 Marks</span></h2>';
+            data.mcq.forEach(function(q, idx) {
+                const n = idx + 1;
+                html += '<div class="question-card">';
+                html += '<div class="question-text">' + n + '. ' + q.text + ' <span class="marks-badge">1 Mark</span></div>';
+                html += '<div class="options">';
+                q.options.forEach(function(opt) {
+                    html += '<label><input type="radio" name="q' + n + '" value="' + opt.value + '"> <span>' + opt.value + ') ' + opt.label + '</span></label>';
+                });
+                html += '</div></div>';
+            });
+
+            // Part 2 - T/F
+            html += '<h2 class="section-title">Part 2: True or False <span>10 Marks</span></h2>';
+            data.tf.forEach(function(q, idx) {
+                const n = 21 + idx;
+                html += '<div class="question-card">';
+                html += '<div class="question-text">' + n + '. ' + q.text + ' <span class="marks-badge">1 Mark</span></div>';
+                html += '<div class="options">';
+                html += '<label><input type="radio" name="q' + n + '" value="True"> <span>True</span></label>';
+                html += '<label><input type="radio" name="q' + n + '" value="False"> <span>False</span></label>';
+                html += '</div></div>';
+            });
+
+            // Part 3 - Fill in blanks
+            html += '<h2 class="section-title">Part 3: Fill in the Blank <span>20 Marks</span></h2>';
+            data.fill.forEach(function(q, idx) {
+                const n = 31 + idx;
+                html += '<div class="question-card">';
+                html += '<div class="question-text">' + n + '. ' + q.text + ' <span class="marks-badge">2 Marks</span></div>';
+                html += '<input type="text" class="textarea-input" name="q' + n + '" placeholder="Type your answer here...">';
+                html += '</div>';
+            });
+
+            // Part 4 - Short
+            html += '<h2 class="section-title">Part 4: Short Questions <span>20 Marks</span></h2>';
+            data.short.forEach(function(q, idx) {
+                const n = 41 + idx;
+                html += '<div class="question-card">';
+                html += '<div class="question-text">' + n + '. ' + q.text + ' <span class="marks-badge">4 Marks</span></div>';
+                html += '<textarea class="textarea-input" name="q' + n + '" placeholder="Type your answer here..."></textarea>';
+                html += '</div>';
+            });
+
+            // Part 5 - Order
+            html += '<h2 class="section-title">Part 5: Order the Steps <span>30 Marks</span></h2>';
+            html += '<p style="margin-bottom: 20px; color: var(--text-muted);">Select the correct sequence. (5 marks per question)</p>';
+            data.order.forEach(function(q, idx) {
+                const n = 46 + idx;
+                html += '<div class="question-card">';
+                html += '<div class="question-text">' + n + '. ' + q.text + ' <span class="marks-badge">5 Marks</span></div>';
+                html += '<div class="order-container">';
+                for (let step = 1; step <= 3; step++) {
+                    const stepLabel = step === 1 ? '1st' : step === 2 ? '2nd' : '3rd';
+                    html += '<div class="order-step">';
+                    html += '<span class="order-label">' + stepLabel + ' Step:</span>';
+                    html += '<select class="order-select" name="q' + n + '_' + step + '">';
+                    html += '<option value="">-- Select Step --</option>';
+                    q.options.forEach(function(opt) {
+                        html += '<option value="' + opt.value + '">' + opt.label + '</option>';
+                    });
+                    html += '</select></div>';
+                }
+                html += '</div></div>';
+            });
+
+            html += '<button type="submit" id="submitBtn" class="submit-btn">Submit Final Exam</button>';
+            form.innerHTML = html;
+        }
+
+        // ============================================
+        // NORMALIZE
+        // ============================================
+        function normalizeText(str) {
+            return String(str).toLowerCase().replace(/[\s\-_.,'"!?()]/g, '');
+        }
+
+        // ============================================
+        // SUBMIT
+        // ============================================
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const data = EXAM_DATA[currentSet];
+            let totalScore = 0;
+            let resultHTML = '';
+
+            // ---- MCQ ----
+            data.mcq.forEach(function(q, idx) {
+                const n = idx + 1;
+                const sel = document.querySelector('input[name="q' + n + '"]:checked');
+                const userVal = sel ? sel.value : '';
+                const correctOpt = q.options.find(function(o) { return o.value === q.answer; });
+                const correctDisplay = q.answer + ') ' + (correctOpt ? correctOpt.label : '');
+
+                let userDisplay;
+                if (userVal) {
+                    const userOpt = q.options.find(function(o) { return o.value === userVal; });
+                    userDisplay = userVal + ') ' + (userOpt ? userOpt.label : '');
+                } else {
+                    userDisplay = '<span class="blank-text">Not answered</span>';
+                }
+
+                const isCorrect = userVal === q.answer;
+                if (isCorrect) totalScore += 1;
+
+                resultHTML += '<div class="result-item ' + (isCorrect ? 'correct' : 'incorrect') + '">';
+                resultHTML += '<strong><span class="q-num">Q' + n + '</span>' + q.text + '</strong>';
+                resultHTML += '<div class="answer-detail">';
+                resultHTML += '<div class="your-answer-text">Your answer: ' + userDisplay + '</div>';
+                resultHTML += '<div class="correct-answer-text">Correct answer: ' + correctDisplay + '</div>';
+                resultHTML += '</div></div>';
+            });
+
+            // ---- T/F ----
+            data.tf.forEach(function(q, idx) {
+                const n = 21 + idx;
+                const sel = document.querySelector('input[name="q' + n + '"]:checked');
+                const userVal = sel ? sel.value : '';
+                const userDisplay = userVal ? userVal : '<span class="blank-text">Not answered</span>';
+                const isCorrect = userVal === q.answer;
+                if (isCorrect) totalScore += 1;
+
+                resultHTML += '<div class="result-item ' + (isCorrect ? 'correct' : 'incorrect') + '">';
+                resultHTML += '<strong><span class="q-num">Q' + n + '</span>' + q.text + '</strong>';
+                resultHTML += '<div class="answer-detail">';
+                resultHTML += '<div class="your-answer-text">Your answer: ' + userDisplay + '</div>';
+                resultHTML += '<div class="correct-answer-text">Correct answer: ' + q.answer + '</div>';
+                resultHTML += '</div></div>';
+            });
+
+            // ---- FILL ----
+            data.fill.forEach(function(q, idx) {
+                const n = 31 + idx;
+                const raw = document.querySelector('input[name="q' + n + '"]').value.trim();
+                const userNorm = normalizeText(raw);
+                const correctNorm = normalizeText(q.answer);
+                const isCorrect = userNorm !== '' && (userNorm === correctNorm || correctNorm.indexOf(userNorm) !== -1 || userNorm.indexOf(correctNorm) !== -1);
+
+                if (isCorrect) totalScore += 2;
+
+                resultHTML += '<div class="result-item ' + (isCorrect ? 'correct' : 'incorrect') + '">';
+                resultHTML += '<strong><span class="q-num">Q' + n + '</span>' + q.text + '</strong>';
+                resultHTML += '<div class="answer-detail">';
+                resultHTML += '<div class="your-answer-text">Your answer: ' + (raw ? raw : '<span class="blank-text">Blank</span>') + '</div>';
+                resultHTML += '<div class="correct-answer-text">Correct answer: ' + q.answer + '</div>';
+                resultHTML += '</div></div>';
+            });
+
+            // ---- SHORT ----
+            data.short.forEach(function(q, idx) {
+                const n = 41 + idx;
+                const raw = document.querySelector('textarea[name="q' + n + '"]').value.trim();
+                const lower = raw.toLowerCase();
+                let matched = null;
+                for (let k = 0; k < q.keywords.length; k++) {
+                    if (lower.indexOf(q.keywords[k]) !== -1) {
+                        matched = q.keywords[k];
+                        break;
+                    }
+                }
+                const isCorrect = matched !== null;
+                if (isCorrect) totalScore += 4;
+
+                resultHTML += '<div class="result-item ' + (isCorrect ? 'correct' : 'incorrect') + '">';
+                resultHTML += '<strong><span class="q-num">Q' + n + '</span>' + q.text + '</strong>';
+                resultHTML += '<div class="answer-detail">';
+                resultHTML += '<div class="your-answer-text">Your answer: ' + (raw ? '"' + raw + '"' : '<span class="blank-text">Blank</span>') + '</div>';
+                if (isCorrect) {
+                    resultHTML += '<div class="correct-answer-text">Correct! (Matched concept: "' + matched + '")</div>';
+                } else {
+                    resultHTML += '<div class="correct-answer-text">Expected concepts: ' + q.keywords.join(' OR ') + '</div>';
+                }
+                resultHTML += '</div></div>';
+            });
+
+            // ---- ORDER ----
+            data.order.forEach(function(q, idx) {
+                const n = 46 + idx;
+                const userVals = [];
+                let isCorrect = true;
+                for (let step = 1; step <= 3; step++) {
+                    const v = document.querySelector('select[name="q' + n + '_' + step + '"]').value;
+                    userVals.push(v || '');
+                    if (v !== q.answer[step - 1]) isCorrect = false;
+                }
+
+                function lookup(val) {
+                    if (!val) return '<span class="blank-text">(blank)</span>';
+                    const opt = q.options.find(function(o) { return o.value === val; });
+                    return opt ? val + ') ' + opt.label : val;
+                }
+
+                const userDisplay = userVals.map(function(v, i) { return (i + 1) + ') ' + lookup(v); }).join(' &nbsp;→&nbsp; ');
+                const correctDisplay = q.answer.map(function(v, i) { return (i + 1) + ') ' + lookup(v); }).join(' &nbsp;→&nbsp; ');
+
+                if (isCorrect) totalScore += 5;
+
+                resultHTML += '<div class="result-item ' + (isCorrect ? 'correct' : 'incorrect') + '">';
+                resultHTML += '<strong><span class="q-num">Q' + n + '</span>' + q.text + '</strong>';
+                resultHTML += '<div class="answer-detail">';
+                resultHTML += '<div class="your-answer-text">Your order: ' + userDisplay + '</div>';
+                resultHTML += '<div class="correct-answer-text">Correct order: ' + correctDisplay + '</div>';
+                resultHTML += '</div></div>';
+            });
+
+            // ---- SHOW ----
+            document.getElementById('result-greeting').innerText = currentStudentName + "'s Examination Report";
+            document.getElementById('result-set-label').innerText = data.label + ' — Your Score';
+            document.getElementById('score-display').innerHTML = totalScore + '<span>/100</span>';
+            document.getElementById('detailed-results').innerHTML = '<h3>Detailed Question Review</h3>' + resultHTML;
+
+            document.querySelector('.exam-info-card').style.display = 'none';
+            document.getElementById('examForm').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
